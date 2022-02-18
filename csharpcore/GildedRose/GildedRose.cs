@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GildedRoseKata.ItemMangement;
+using System.Collections.Generic;
 
 namespace GildedRoseKata
 {
@@ -12,78 +13,38 @@ namespace GildedRoseKata
 
         public void UpdateQuality()
         {
-            for (var i = 0; i < Items.Count; i++)
+            foreach (Item item in Items)
             {
-                if (Items[i].Name != "Aged Brie" && Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
-                {
-                    if (Items[i].Quality > 0)
-                    {
-                        if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                        {
-                            Items[i].Quality = Items[i].Quality - 1;
-                        }
-                    }
-                }
-                else
-                {
-                    if (Items[i].Quality < 50)
-                    {
-                        Items[i].Quality = Items[i].Quality + 1;
-
-                        if (Items[i].Name == "Backstage passes to a TAFKAL80ETC concert")
-                        {
-                            if (Items[i].SellIn < 11)
-                            {
-                                if (Items[i].Quality < 50)
-                                {
-                                    Items[i].Quality = Items[i].Quality + 1;
-                                }
-                            }
-
-                            if (Items[i].SellIn < 6)
-                            {
-                                if (Items[i].Quality < 50)
-                                {
-                                    Items[i].Quality = Items[i].Quality + 1;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                {
-                    Items[i].SellIn = Items[i].SellIn - 1;
-                }
-
-                if (Items[i].SellIn < 0)
-                {
-                    if (Items[i].Name != "Aged Brie")
-                    {
-                        if (Items[i].Name != "Backstage passes to a TAFKAL80ETC concert")
-                        {
-                            if (Items[i].Quality > 0)
-                            {
-                                if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
-                                {
-                                    Items[i].Quality = Items[i].Quality - 1;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Items[i].Quality = Items[i].Quality - Items[i].Quality;
-                        }
-                    }
-                    else
-                    {
-                        if (Items[i].Quality < 50)
-                        {
-                            Items[i].Quality = Items[i].Quality + 1;
-                        }
-                    }
-                }
+                UpdateItem(item);
             }
         }
+
+
+        public void UpdateItem(Item item)
+        {
+            IItemManagement itemMan;
+            switch (item.Name)
+            {
+                case "Backstage passes to a TAFKAL80ETC concert":
+                    itemMan = new BackstageItem();
+                    break;
+                case "Aged Brie":
+                    itemMan = new AgedBrie();
+                    break;
+                case "Sulfuras, Hand of Ragnaros":
+                    itemMan = new Sulfuras();
+                    break;
+                case "Conjured Mana Cake":
+                    itemMan = new Conjured();
+                    break;
+                default:
+                    itemMan = new GenericItem();
+                    break;
+            }
+
+            itemMan.UpdateItem(item);
+
+        }
+
     }
 }
