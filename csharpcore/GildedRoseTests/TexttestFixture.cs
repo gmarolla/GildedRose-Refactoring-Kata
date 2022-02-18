@@ -1,4 +1,5 @@
 ﻿
+using GildedRose;
 using GildedRoseKata;
 
 using System;
@@ -40,7 +41,8 @@ namespace GildedRoseTests
                 new Item {Name = "Conjured Mana Cake", SellIn = 3, Quality = 6}
             };
 
-            var app = new GildedRose(Items);
+
+            GildedRoseQualityService app = new GildedRoseQualityService(Items);
 
             int days = 2;
             if (args.Length > 0)
@@ -59,6 +61,6 @@ namespace GildedRoseTests
                 Console.WriteLine("");
                 app.UpdateQuality();
             }
-        }
+        }       
     }
 }
