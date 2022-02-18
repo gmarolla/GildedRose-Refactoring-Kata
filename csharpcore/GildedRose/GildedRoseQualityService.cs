@@ -77,28 +77,33 @@ namespace GildedRoseKata
 
             for (var i = 0; i < _ItemParams.Count; i++)
             {
-                switch (_ItemParams[i]._ItemCategory)
-                {
-                    case (ItemCategory.Standard):
-                        StandardUpdateCurrentItem(_ItemParams[i]._Item);
-                        break;
-                    case (ItemCategory.AgedBrie):
-                        AgedBrieUpdateCurrentItem(_ItemParams[i]._Item);
-
-                        break;
-                    case (ItemCategory.Lengendary):
-                        LegendaryUpdateCurrentItem(_ItemParams[i]._Item);
-                        break;
-                    case (ItemCategory.Concert):
-                        ConcertUpdateCurrentItem(_ItemParams[i]._Item);
-                        break;
-                    case (ItemCategory.Conjured):
-                        ConjuredUpdateCurrentItem(_ItemParams[i]._Item);
-                        break;
-                    default:
-                        break;
-                }
+                UpdateDependingItemCategory(i);
                 DecreaseSellin(_ItemParams[i]._Item);
+            }
+        }
+
+        private void UpdateDependingItemCategory(int i)
+        {
+            switch (_ItemParams[i]._ItemCategory)
+            {
+                case (ItemCategory.Standard):
+                    StandardUpdateCurrentItem(_ItemParams[i]._Item);
+                    break;
+                case (ItemCategory.AgedBrie):
+                    AgedBrieUpdateCurrentItem(_ItemParams[i]._Item);
+
+                    break;
+                case (ItemCategory.Lengendary):
+                    LegendaryUpdateCurrentItem(_ItemParams[i]._Item);
+                    break;
+                case (ItemCategory.Concert):
+                    ConcertUpdateCurrentItem(_ItemParams[i]._Item);
+                    break;
+                case (ItemCategory.Conjured):
+                    ConjuredUpdateCurrentItem(_ItemParams[i]._Item);
+                    break;
+                default:
+                    break;
             }
         }
 

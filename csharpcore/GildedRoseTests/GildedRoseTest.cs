@@ -10,27 +10,24 @@ namespace GildedRoseTests
         [Fact]
         public void foo()
         {
-            IList<Item> Items = new List<Item> { new Item { Name = "+5 Dexterity Vest", SellIn = 0, Quality = 0 } };
+            // GIVEN
 
+            IList<ItemParam> ItemParams = CreateItemParams("+5 Dexterity Vest", 0, 0, ItemCategory.Standard);
 
-            IList<ItemParam> ItemParams = new List<ItemParam>();
-            ItemParam itemParam = new ItemParam(new Item { Name = "+5 Dexterity Vest", SellIn = 0, Quality = 0 }, ItemCategory.Standard);
-            ItemParams.Add(itemParam);
-
+            // WHEN
 
             GildedRoseQualityService app = new GildedRoseQualityService(ItemParams);
             app.UpdateQuality();
-            Assert.Equal("+5 Dexterity Vest", Items[0].Name);
+            // THEN
+
+            Assert.Equal("+5 Dexterity Vest", ItemParams[0]._Item.Name);
         }
         [Fact]
         public void Standard()
         {
 
             // GIVEN
-            IList<ItemParam> ItemParams = new List<ItemParam>();
-            Item item = new Item { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 };
-            ItemParam itemParam = new ItemParam(item, ItemCategory.Standard);
-            ItemParams.Add(itemParam);
+            IList<ItemParam> ItemParams = CreateItemParams("+5 Dexterity Vest", 10, 20, ItemCategory.Standard);
 
             // WHEN
             GildedRoseQualityService app = new GildedRoseQualityService(ItemParams);
@@ -44,10 +41,7 @@ namespace GildedRoseTests
         {
 
             // GIVEN
-            IList<ItemParam> ItemParams = new List<ItemParam>();
-            Item item = new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 };
-            ItemParam itemParam = new ItemParam(item, ItemCategory.Lengendary);
-            ItemParams.Add(itemParam);
+            IList<ItemParam> ItemParams = CreateItemParams("Sulfuras, Hand of Ragnaros", 0, 80, ItemCategory.Lengendary);
 
             // WHEN
             GildedRoseQualityService app = new GildedRoseQualityService(ItemParams);
@@ -61,10 +55,7 @@ namespace GildedRoseTests
         {
 
             // GIVEN
-            IList<ItemParam> ItemParams = new List<ItemParam>();
-            Item item = new Item { Name = "Aged Brie", SellIn = 2, Quality = 0 };
-            ItemParam itemParam = new ItemParam(item, ItemCategory.AgedBrie);
-            ItemParams.Add(itemParam);
+            IList<ItemParam> ItemParams = CreateItemParams("Aged Brie", 2, 0, ItemCategory.AgedBrie);
 
             // WHEN
             GildedRoseQualityService app = new GildedRoseQualityService(ItemParams);
@@ -78,10 +69,7 @@ namespace GildedRoseTests
         {
 
             // GIVEN
-            IList<ItemParam> ItemParams = new List<ItemParam>();
-            Item item = new Item { Name= "Backstage passes to a TAFKAL80ETC concert", SellIn = 15, Quality = 20 };
-            ItemParam itemParam = new ItemParam(item, ItemCategory.Concert);
-            ItemParams.Add(itemParam);
+            IList<ItemParam> ItemParams = CreateItemParams("Backstage passes to a TAFKAL80ETC concert", 15, 20, ItemCategory.Concert);
 
             // WHEN
             GildedRoseQualityService app = new GildedRoseQualityService(ItemParams);
@@ -112,10 +100,7 @@ namespace GildedRoseTests
         {
 
             // GIVEN
-            IList<ItemParam> ItemParams = new List<ItemParam>();
-            Item item = new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = 3, Quality = 20 };
-            ItemParam itemParam = new ItemParam(item, ItemCategory.Concert);
-            ItemParams.Add(itemParam);
+            IList<ItemParam> ItemParams = CreateItemParams("Backstage passes to a TAFKAL80ETC concert", 3, 20, ItemCategory.Concert);
 
             // WHEN
             GildedRoseQualityService app = new GildedRoseQualityService(ItemParams);
@@ -129,10 +114,7 @@ namespace GildedRoseTests
         {
 
             // GIVEN
-            IList<ItemParam> ItemParams = new List<ItemParam>();
-            Item item = new Item { Name = "Backstage passes to a TAFKAL80ETC concert", SellIn = -1, Quality = 20 };
-            ItemParam itemParam = new ItemParam(item, ItemCategory.Concert);
-            ItemParams.Add(itemParam);
+            IList<ItemParam> ItemParams = CreateItemParams("Backstage passes to a TAFKAL80ETC concert", -1,20, ItemCategory.Concert);
 
             // WHEN
             GildedRoseQualityService app = new GildedRoseQualityService(ItemParams);
@@ -146,10 +128,7 @@ namespace GildedRoseTests
         {
 
             // GIVEN
-            IList<ItemParam> ItemParams = new List<ItemParam>();
-            Item item = new Item { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 };
-            ItemParam itemParam = new ItemParam(item, ItemCategory.Conjured);
-            ItemParams.Add(itemParam);
+            IList<ItemParam> ItemParams = CreateItemParams("Conjured Mana Cake", 3, 6, ItemCategory.Conjured);
 
             // WHEN
             GildedRoseQualityService app = new GildedRoseQualityService(ItemParams);
@@ -163,10 +142,7 @@ namespace GildedRoseTests
         public void Conjured_MinusSellin()
         {
             // GIVEN
-            IList<ItemParam> ItemParams = new List<ItemParam>();
-            Item item = new Item { Name = "Conjured Mana Cake", SellIn = -1, Quality = 6 };
-            ItemParam itemParam = new ItemParam(item, ItemCategory.Conjured);
-            ItemParams.Add(itemParam);
+            IList<ItemParam> ItemParams = CreateItemParams("Conjured Mana Cake", -1, 6, ItemCategory.Conjured);
 
             // WHEN
             GildedRoseQualityService app = new GildedRoseQualityService(ItemParams);
@@ -174,6 +150,15 @@ namespace GildedRoseTests
             // THEN
             Assert.Equal(2, ItemParams[0]._Item.Quality);
             Assert.Equal(-2, ItemParams[0]._Item.SellIn);
+        }
+
+        private static IList<ItemParam> CreateItemParams(string name, int sellInValue, int qualityValue, ItemCategory category )
+        {
+            IList<ItemParam> ItemParams = new List<ItemParam>();
+            Item item = new Item { Name = name, SellIn = sellInValue, Quality = qualityValue };
+            ItemParam itemParam = new ItemParam(item,category);
+            ItemParams.Add(itemParam);
+            return ItemParams;
         }
     }
 }
